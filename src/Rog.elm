@@ -29,7 +29,15 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    { statusMsg = "", walls = [] }
+    { statusMsg = ""
+    , walls =
+        [ ( 1, 1 )
+        , ( 1, 2 )
+        , ( 1, 3 )
+        , ( 1, 4 )
+        , ( 1, 5 )
+        ]
+    }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

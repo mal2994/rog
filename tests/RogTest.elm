@@ -13,3 +13,18 @@ testInit =
         , test "check model" <|
             \_ -> initialModel.statusMsg |> Expect.equal ""
         ]
+
+
+testRender : Test
+testRender =
+    describe "walls" <|
+        [ test "initial model has walls" <|
+            \_ ->
+                initialModel.walls
+                    |> List.length
+                    |> Expect.greaterThan 0
+        , test "walls display as #" <|
+            \_ -> False
+        , test "lol"
+        , test "test"
+        ]
