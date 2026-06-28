@@ -66,6 +66,12 @@ cellToTile x =
 eqTile : Tile -> Tile -> Bool
 eqTile x y = x == y
 
+toChar: Tile -> Char
+toChar x =
+  case x of 
+    Floor -> '.'
+    Wall -> '#'
+
 initialSettings : Dict String Settings
 initialSettings =
     Dict.fromList

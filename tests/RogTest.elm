@@ -32,6 +32,10 @@ testRender =
                             (cellToTile >> eqTile Wall)
                         |> List.length
                         |> Expect.greaterThan 0
+            , test "wall tile display as #" <|
+                \_ ->
+                    toChar Wall
+                        |> Expect.equal '#'
             , Test.todo "walls display as #"
             ]
         , describe "player" <|
