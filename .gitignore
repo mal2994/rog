@@ -1,1 +1,7 @@
 elm-stuff/
+index.html
+
+src/ExampleRndNum.elm
+src/Types.elm
+src/UnicodeCards.elm
+src/War.elm
