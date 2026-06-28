@@ -1,6 +1,7 @@
 module RogTest exposing (..)
 
 import Expect exposing (..)
+import Html exposing (a)
 import Rog exposing (..)
 import Test exposing (..)
 
@@ -17,14 +18,39 @@ testInit =
 
 testRender : Test
 testRender =
-    describe "walls" <|
-        [ test "initial model has walls" <|
-            \_ ->
-                initialModel.walls
-                    |> List.length
-                    |> Expect.greaterThan 0
-        , test "walls display as #" <|
-            \_ -> False
-        , test "lol"
-        , test "test"
+    describe "rendering system"
+        [ describe "floors" <|
+            [ Test.todo "model has floors"
+            , Test.todo "floors display as ."
+            ]
+        , describe "walls" <|
+            [ test "model has walls" <|
+                \_ ->
+                    initialModel.world
+                        |> addWallsLvl1
+                        |> List.filter
+                            (cellToTile >> eqTile Wall)
+                        |> List.length
+                        |> Expect.greaterThan 0
+            , Test.todo "walls display as #"
+            ]
+        , describe "player" <|
+            [ Test.todo "model has player"
+            , Test.todo "player display as @"
+            ]
+        , describe "view" <|
+            [ Test.todo "view exists"
+            , Test.todo "view sized according to settings"
+            , Test.todo ""
+            ]
         ]
+
+
+testTextInput : Test
+testTextInput =
+    Test.todo "test command handler"
+
+
+testTileRules : Test
+testTileRules =
+    Test.todo "walls prohibit movement"

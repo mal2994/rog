@@ -1,6 +1,7 @@
 module Rog exposing (..)
 
 import Browser
+import Dict exposing (Dict)
 import Html exposing (Html, br, div, input, p, pre, text, textarea)
 import Html.Attributes exposing (placeholder, type_, value)
 import Html.Events exposing (onInput)
@@ -16,27 +17,83 @@ main =
         }
 
 
+
+-- MSG
+
+
 type Msg
     = NoOp
     | GotTextInput String
 
 
+
+-- MODEL
+
+
+type Settings
+    = SettingsInt Int
+    | SettingsString String
+
+
 type alias Model =
-    { walls : List ( Int, Int )
+    { settings : Dict String Settings
+    , world : World
     , statusMsg : String
     }
+
+
+type alias Coord =
+    ( Int, Int )
+
+
+type Tile
+    = Wall
+    | Floor
+
+
+type alias Cell =
+    ( Coord, Tile )
+
+
+type alias World =
+    List Cell
+
+
+cellToTile : Cell -> Tile
+cellToTile x =
+    Tuple.second x
+
+eqTile : Tile -> Tile -> Bool
+eqTile x y = x == y
+
+initialSettings : Dict String Settings
+initialSettings =
+    Dict.fromList
+        [ ( "sizeX", SettingsInt 12 )
+        , ( "sizeY", SettingsInt 12 )
+        ]
+
+
+addWallsLvl1 : World -> World
+addWallsLvl1 w =
+    List.append w
+        [ ( ( 1, 1 ), Wall )
+        , ( ( 1, 2 ), Wall )
+        , ( ( 1, 3 ), Wall )
+        , ( ( 1, 4 ), Wall )
+        , ( ( 1, 5 ), Wall )
+        ]
+
+
+
+-- INITIAL MODEL
 
 
 initialModel : Model
 initialModel =
     { statusMsg = ""
-    , walls =
-        [ ( 1, 1 )
-        , ( 1, 2 )
-        , ( 1, 3 )
-        , ( 1, 4 )
-        , ( 1, 5 )
-        ]
+    , world = []
+    , settings = initialSettings
     }
 
 
