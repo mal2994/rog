@@ -1,8 +1,9 @@
 module Rog exposing (..)
 
 import Browser
-import Html exposing (Html, br, div, p, text, textarea)
-import Html.Attributes exposing (placeholder)
+import Html exposing (Html, br, div, input, p, pre, text, textarea)
+import Html.Attributes exposing (placeholder, type_, value)
+import Html.Events exposing (onInput)
 
 
 main : Program () Model Msg
@@ -17,15 +18,18 @@ main =
 
 type Msg
     = NoOp
+    | GotTextInput String
 
 
 type alias Model =
-    { statusMsg : String }
+    { walls : List ( Int, Int )
+    , statusMsg : String
+    }
 
 
 initialModel : Model
 initialModel =
-    { statusMsg = "Hello there!" }
+    { statusMsg = "", walls = [] }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -34,11 +38,14 @@ update msg model =
         NoOp ->
             ( model, Cmd.none )
 
+        GotTextInput inputTxt ->
+            ( { model | statusMsg = inputTxt }, Cmd.none )
+
 
 view : Model -> Html Msg
 view model =
     div []
-        [ textarea [ placeholder "Type something..." ] []
+        [ input [ placeholder "Type something ✌️", onInput GotTextInput ] []
         , br [] []
         , p [] [ text model.statusMsg ]
         ]
