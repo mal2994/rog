@@ -50,9 +50,9 @@ testModel =
                             )
             , test "12 x 12 floor" <|
                 \_ ->
-                    makeFloorGrid 12 12
+                    makeFloorGrid settings.sizeX settings.sizeY
                         |> Set.size
-                        |> Expect.equal 144
+                        |> Expect.equal (settings.sizeX * settings.sizeY)
             ]
         , describe "walls" <|
             [ test "model has walls" <|
