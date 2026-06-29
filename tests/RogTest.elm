@@ -17,20 +17,42 @@ testInit =
         ]
 
 
-testRender : Test
-testRender =
+testModel : Test
+testModel =
     describe "rendering system"
         [ describe "floors" <|
-            [ test "model has floors" <|
+            [ test "1 x 1 floor" <|
                 \_ ->
-                    initialModel.world
-                        |> Set.toList
-                        |> List.filter
-                            (cellToTile >> eqTile Floor)
-                        |> List.length
-                        |> Expect.greaterThan 0
-
-            -- , Test.todo "floors display as ."
+                    makeFloorGrid 1 1
+                        |> Expect.equal
+                            (Set.fromList
+                                [ ( ( 0, 0 ), '.' ) ]
+                            )
+            , test "2 x 1 floor" <|
+                \_ ->
+                    makeFloorGrid 2 1
+                        |> Expect.equal
+                            (Set.fromList
+                                [ ( ( 0, 0 ), '.' )
+                                , ( ( 1, 0 ), '.' )
+                                ]
+                            )
+            , test "2 x 2 floor" <|
+                \_ ->
+                    makeFloorGrid 2 2
+                        |> Expect.equal
+                            (Set.fromList
+                                [ ( ( 0, 0 ), '.' )
+                                , ( ( 1, 0 ), '.' )
+                                , ( ( 0, 1 ), '.' )
+                                , ( ( 1, 1 ), '.' )
+                                ]
+                            )
+            , test "12 x 12 floor" <|
+                \_ ->
+                    makeFloorGrid 12 12
+                        |> Set.size
+                        |> Expect.equal 144
             ]
         , describe "walls" <|
             [ test "model has walls" <|
@@ -45,19 +67,20 @@ testRender =
                 \_ ->
                     toChar Wall
                         |> Expect.equal '#'
-
-            -- , Test.todo "walls display as #"
             ]
+        , describe "player" <|
+            [ Test.todo "model has player"
 
-        -- , describe "player" <|
-        --     [ Test.todo "model has player"
-        --     , Test.todo "player display as @"
-        --     ]
-        -- , describe "view" <|
-        --     [ Test.todo "view exists"
-        --     , Test.todo "view sized according to settings"
-        --     , Test.todo ""
-        --     ]
+            -- , test "player display as @" <|
+            --     \_->
+            --         toChar Player
+            --             |> Expect.equal '@'
+            --     ]
+            -- , describe "view" <|
+            --     [ Test.todo "view exists"
+            --     , Test.todo "view sized according to settings"
+            --     , Test.todo ""
+            ]
         ]
 
 
@@ -68,3 +91,5 @@ testRender =
 -- testTileRules : Test
 -- testTileRules =
 --     Test.todo "walls prohibit movement"
+-- testViews : Test
+-- testViews = Test.todo "view the model"

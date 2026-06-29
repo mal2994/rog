@@ -39,9 +39,8 @@ type MsgUnion
 -- MODEL
 
 
-type SettingsUnion
-    = SettingsInt Int
-    | SettingsString String
+settings =
+    { sizeX = 12, sizeY = 12 }
 
 
 type
@@ -64,8 +63,7 @@ type alias WorldSet =
 
 
 type alias ModelRecord =
-    { settings : Dict String SettingsUnion
-    , world : WorldSet
+    { world : WorldSet
     , statusMsg : String
     }
 
@@ -118,19 +116,36 @@ toChar x =
             '#'
 
 
-initialSettings : Dict String SettingsUnion
-initialSettings =
-    Dict.fromList
-        [ ( "sizeX", SettingsInt 12 )
-        , ( "sizeY", SettingsInt 12 )
-        ]
-
-
 addWallsLvl1 : WorldSet -> WorldSet
 addWallsLvl1 w =
     Set.fromList
         [ makeCell 1 1 Wall ]
         |> Set.union w
+
+
+zip : List a -> List b -> List ( a, b )
+zip xs ys =
+    List.map2 Tuple.pair xs ys
+
+
+makeFloorGrid : Int -> Int -> WorldSet
+makeFloorGrid sizeX sizeY =
+    let
+        gridx =
+            List.range 0 (sizeX - 1)
+                |> List.concatMap
+                    (\n -> List.repeat sizeY n)
+
+        gridy =
+            List.range 0 (sizeX - 1)
+                |> List.concatMap
+                    (\n -> List.range 0 (sizeY - 1))
+
+        matrix =
+            zip gridx gridy
+    in
+    zip matrix (List.repeat (List.length matrix) '.')
+        |> Set.fromList
 
 
 
@@ -141,7 +156,6 @@ initialModel : ModelRecord
 initialModel =
     { statusMsg = ""
     , world = Set.empty
-    , settings = initialSettings
     }
 
 
