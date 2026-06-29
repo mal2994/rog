@@ -91,5 +91,5 @@ testModel =
 -- testTileRules : Test
 -- testTileRules =
 --     Test.todo "walls prohibit movement"
--- testViews : Test
--- testViews = Test.todo "view the model"
+testViews : Test
+testViews = Test.todo "view the model"

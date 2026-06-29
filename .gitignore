@@ -1,5 +1,6 @@
 elm-stuff/
-index.html
+# index.html
+rog.js
 
 src/ExampleRndNum.elm
 src/Types.elm

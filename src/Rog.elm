@@ -172,7 +172,16 @@ update msg model =
 view : ModelRecord -> Html MsgUnion
 view model =
     div []
-        [ input [ placeholder "Type something ✌️", onInput GotTextInput ] []
+        [ input [ placeholder "> TYPE COMMAND ☻", onInput GotTextInput ] []
         , br [] []
+        , p [] [ text (viewWorld model.world) ]
         , p [] [ text model.statusMsg ]
         ]
+
+viewWorld: WorldSet -> String
+viewWorld _ = "f"
+
+-- https://menez.io/css/font/dungeon-mode.ttf
+-- @font-face 
+-- dungeon-mode
+-- truetype
