@@ -5,9 +5,18 @@ import Dict exposing (Dict)
 import Html exposing (Html, br, div, input, p, pre, text, textarea)
 import Html.Attributes exposing (placeholder, type_, value)
 import Html.Events exposing (onInput)
+import Set exposing (Set)
 
 
-main : Program () Model Msg
+
+-- Our game world is going to be a Set of Cells
+-- So that no coordinate can have more than one occupant
+-- In Elm, we cannot use custom types in a Set
+-- So, we need a function to translate Cell
+-- into a comparable type Char
+
+
+main : Program () ModelRecord MsgUnion
 main =
     Browser.element
         { init = \_ -> ( initialModel, Cmd.none )
@@ -21,7 +30,7 @@ main =
 -- MSG
 
 
-type Msg
+type MsgUnion
     = NoOp
     | GotTextInput String
 
@@ -30,49 +39,86 @@ type Msg
 -- MODEL
 
 
-type Settings
+type SettingsUnion
     = SettingsInt Int
     | SettingsString String
 
 
-type alias Model =
-    { settings : Dict String Settings
-    , world : World
-    , statusMsg : String
-    }
-
-
-type alias Coord =
-    ( Int, Int )
-
-
-type Tile
+type
+    TileUnion
+    -- Tile Union is used for function args mainly
     = Wall
     | Floor
 
 
-type alias Cell =
-    ( Coord, Tile )
+type alias CoordTuple =
+    ( Int, Int )
 
 
-type alias World =
-    List Cell
+type alias CellTuple =
+    ( CoordTuple, Char )
 
 
-cellToTile : Cell -> Tile
+type alias WorldSet =
+    Set CellTuple
+
+
+type alias ModelRecord =
+    { settings : Dict String SettingsUnion
+    , world : WorldSet
+    , statusMsg : String
+    }
+
+
+makeCell : Int -> Int -> TileUnion -> CellTuple
+makeCell x y z =
+    ( ( x, y ), tileToChar z )
+
+
+tileToChar : TileUnion -> Char
+tileToChar x =
+    case x of
+        Wall ->
+            '#'
+
+        Floor ->
+            '.'
+
+
+charToTile : Char -> TileUnion
+charToTile x =
+    case x of
+        '#' ->
+            Wall
+
+        '.' ->
+            Floor
+
+        _ ->
+            Floor
+
+
+cellToTile : CellTuple -> TileUnion
 cellToTile x =
-    Tuple.second x
+    Tuple.second x |> charToTile
 
-eqTile : Tile -> Tile -> Bool
-eqTile x y = x == y
 
-toChar: Tile -> Char
+eqTile : TileUnion -> TileUnion -> Bool
+eqTile x y =
+    x == y
+
+
+toChar : TileUnion -> Char
 toChar x =
-  case x of 
-    Floor -> '.'
-    Wall -> '#'
+    case x of
+        Floor ->
+            '.'
 
-initialSettings : Dict String Settings
+        Wall ->
+            '#'
+
+
+initialSettings : Dict String SettingsUnion
 initialSettings =
     Dict.fromList
         [ ( "sizeX", SettingsInt 12 )
@@ -80,30 +126,26 @@ initialSettings =
         ]
 
 
-addWallsLvl1 : World -> World
+addWallsLvl1 : WorldSet -> WorldSet
 addWallsLvl1 w =
-    List.append w
-        [ ( ( 1, 1 ), Wall )
-        , ( ( 1, 2 ), Wall )
-        , ( ( 1, 3 ), Wall )
-        , ( ( 1, 4 ), Wall )
-        , ( ( 1, 5 ), Wall )
-        ]
+    Set.fromList
+        [ makeCell 1 1 Wall ]
+        |> Set.union w
 
 
 
 -- INITIAL MODEL
 
 
-initialModel : Model
+initialModel : ModelRecord
 initialModel =
     { statusMsg = ""
-    , world = []
+    , world = Set.empty
     , settings = initialSettings
     }
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : MsgUnion -> ModelRecord -> ( ModelRecord, Cmd MsgUnion )
 update msg model =
     case msg of
         NoOp ->
@@ -113,7 +155,7 @@ update msg model =
             ( { model | statusMsg = inputTxt }, Cmd.none )
 
 
-view : Model -> Html Msg
+view : ModelRecord -> Html MsgUnion
 view model =
     div []
         [ input [ placeholder "Type something ✌️", onInput GotTextInput ] []
