@@ -172,7 +172,7 @@ update msg model =
 view : ModelRecord -> Html MsgUnion
 view model =
     div []
-        [ input [ placeholder "> TYPE COMMAND ☻", onInput GotTextInput ] []
+        [ input [ placeholder "> TYPE COMMAND ☻ :)", onInput GotTextInput ] []
         , br [] []
         , p [] [ text (viewWorld model.world) ]
         , p [] [ text model.statusMsg ]

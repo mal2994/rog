@@ -1,0 +1,8 @@
+{
+  "targets": {
+    "MyApplication": {
+      "inputs": ["src/Rog.elm"],
+      "output": "Rog.js"
+    }
+  }
+}

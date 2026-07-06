@@ -10,3 +10,5 @@ src/War.elm
 tests/Example.elm.bak
 tests/UnicodeCardsTest.elm
 tests/WarTest.elm
+
+scrape/

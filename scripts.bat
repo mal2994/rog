@@ -2,6 +2,8 @@ REM don't run this file, just copy and paste
 
 REM you can then click on src/Rog.elm to compile. Ctrl-r to pick up new changes.
 elm reactor
+REM since I am relying on CSS for custom fonts, it is handy to bring in elm-watch to hot reload everything. Pretty much works like nodemon.
+npx elm-watch hot
 
 elm-test --watch tests\RogTest.elm
 
