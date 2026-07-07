@@ -61,6 +61,8 @@ type alias CellTuple =
 type alias WorldSet =
     Set CellTuple
 
+type alias BraveNewWorld = 
+    Dict (Set (Int, Int)) Char
 
 type alias ModelRecord =
     { world : WorldSet

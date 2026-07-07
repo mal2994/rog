@@ -67,6 +67,20 @@ testModel =
                 \_ ->
                     toChar Wall
                         |> Expect.equal '#'
+            , test "world displays wall and/or floor" <|
+                \_ ->
+                    makeFloorGrid 3 1
+                        |> Set.insert ( ( 0, 0 ), tileToChar Wall )
+                        |> Expect.equal (makeFloorGrid 3 1)
+                        -- damn, set insert does not work as expected. it does not replace @ coord. programmer error.
+
+            -- |> Expect.equal "#.."
+            --
+            -- addWallsLvl1 Set.empty
+            --     |> Set.toList
+            --     |> List.map cellToTile
+            --     |> List.map toChar
+            --     |> Expect.equal (List.repeat (Set.size (addWallsLvl1 Set.empty)) '#')
             ]
         , describe "player" <|
             [ Test.todo "model has player"
@@ -91,5 +105,8 @@ testModel =
 -- testTileRules : Test
 -- testTileRules =
 --     Test.todo "walls prohibit movement"
+
+
 testViews : Test
-testViews = Test.todo "view the model"
+testViews =
+    Test.todo "view the model"
