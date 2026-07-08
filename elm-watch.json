@@ -1,7 +1,7 @@
 {
   "targets": {
     "MyApplication": {
-      "inputs": ["src/Rog.elm"],
+      "inputs": ["src/Main.elm"],
       "output": "Rog.js"
     }
   }

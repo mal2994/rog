@@ -12,3 +12,4 @@ tests/UnicodeCardsTest.elm
 tests/WarTest.elm
 
 scrape/
+notes.md
