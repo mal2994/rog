@@ -1,7 +1,6 @@
 module MainTest exposing (..)
 
 import Expect exposing (..)
-import Html exposing (a)
 import Main exposing (..)
 import Test exposing (..)
 
