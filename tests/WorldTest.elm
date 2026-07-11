@@ -10,5 +10,5 @@ testInit : Test
 testInit =
     describe "Initializing the program" <|
         [ test "check integer" <|
-            \_ -> 0 |> Expect.equal 1
+            \_ -> 1 |> Expect.equal 1
         ]

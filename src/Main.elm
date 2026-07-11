@@ -1,9 +1,10 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, br, div, input )
+import Html exposing (Html, br, div, input, p, pre, text)
 import Html.Attributes exposing (placeholder)
 import Html.Events exposing (onInput)
+import World exposing (World, viewWorld)
 
 
 
@@ -37,7 +38,9 @@ type Msg
 
 
 type alias Model =
-    {}
+    { world : World
+    , userTextRaw : String
+    }
 
 
 
@@ -46,7 +49,9 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    {}
+    { world = World.initialWorld 
+    , userTextRaw = ""
+    }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -62,9 +67,9 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ input [ placeholder "> TYPE COMMAND ☻ :)", onInput GotTextInput ] []
-        , br [] []
+        [ p [] []
+        , p [] [ text (viewWorld model.world) ]
+        , input [ placeholder "> TYPE COMMAND ☻ :)", onInput GotTextInput ] []
 
-        -- , p [] [ text (viewWorld model.world) ]
         -- , p [] [ text model.statusMsg ]
         ]
