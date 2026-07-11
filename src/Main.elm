@@ -74,7 +74,10 @@ view model =
         , p [] [ text (viewWorld model.world) ]
         , input
             [ id "interpreter-input"
-            , placeholder "> TYPE COMMAND ☻ :)"
+            , placeholder
+                (model.interpreter.previousVerbText
+                    |> Maybe.withDefault "> TYPE COMMAND ☻ :)"
+                )
             , onInput GotTextInput
             , value <| model.interpreter.rawText
             ]

@@ -1,9 +1,12 @@
 module Interpreter exposing (..)
 
+import Maybe exposing (withDefault)
+
 
 type alias Interpreter =
     { rawText : String
     , verb : Verb
+    , previousVerbText : Maybe String
     }
 
 
@@ -15,6 +18,35 @@ type Verb
     | X
     | Z
     | None
+    | Run String
+
+
+toString : Verb -> String
+toString x =
+    case x of
+        Left ->
+            "⬅"
+
+        Right ->
+            "➡"
+
+        Up ->
+            "⬆"
+
+        Down ->
+            "⬇"
+
+        X ->
+            "X"
+
+        Z ->
+            "Z"
+
+        None ->
+            ""
+
+        Run y ->
+            ""
 
 
 parse : Char -> Verb
@@ -61,16 +93,23 @@ runInterpreter interpreter inputStr =
         handleBlank x =
             Maybe.withDefault ( ' ', "" ) x
 
+        runTuple =
+            inputStr |> String.uncons |> handleBlank
+
         firstChar =
-            inputStr
-                |> String.uncons
-                |> handleBlank
-                |> Tuple.first
+            runTuple |> Tuple.first
+
+        restFirstChar =
+            runTuple |> Tuple.second
     in
     case firstChar of
         '>' ->
-            if String.endsWith "\n" inputStr then
-                { interpreter | rawText = "TODO", verb = Down }
+            if String.endsWith "." inputStr then
+                { interpreter
+                    | rawText = ""
+                    , verb = Run restFirstChar
+                    , previousVerbText = ">" ++ restFirstChar |> Just
+                }
 
             else
                 { interpreter | rawText = inputStr, verb = None }
@@ -78,12 +117,12 @@ runInterpreter interpreter inputStr =
         _ ->
             case withParsedVerb.verb of
                 None ->
-                    initialize
+                    { initialize | previousVerbText = interpreter.previousVerbText }
 
                 _ ->
-                    { withParsedVerb | rawText = firstChar |> String.fromChar }
+                    { withParsedVerb | rawText = "", previousVerbText = toString withParsedVerb.verb |> Just }
 
 
 initialize : Interpreter
 initialize =
-    { rawText = "", verb = None }
+    { rawText = "", verb = None, previousVerbText = Nothing }
