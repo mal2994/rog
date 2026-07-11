@@ -42,12 +42,37 @@
 </head>
 
 <body>
+	what's up fucker
 	<!-- Load the compiled Elm code -->
 	<div id="elm-app"></div>
 	<script src="rog.js"></script>
 	<script>
 		// Initialize your Elm application
 		Elm.Main.init({ node: document.getElementById('elm-app') });
+
+		// Listen for any key pressed on the document
+		document.addEventListener('keydown', function (event) {
+			const inputField = document.getElementById('interpreter-input');
+
+			// 1. Check if the user is already focused on the input field
+			if (document.activeElement === inputField) {
+				return;
+			}
+
+			// 2. Ignore system, navigation, or control keys (like Ctrl, Alt, Shift, Escape, Arrow keys)
+			if (event.key.length > 1) {
+				return;
+			}
+
+			// 3. Move focus to the input field immediately
+			inputField.focus();
+
+			// 4. (Optional) Append the typed character so the first letter isn't lost
+			// inputField.value += event.key;
+
+			// Prevent the browser from duplicating the key in the input
+			// event.preventDefault();
+		})
 	</script>
 
 

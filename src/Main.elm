@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Html exposing (Html, br, div, input, p, pre, text)
-import Html.Attributes exposing (placeholder)
+import Html.Attributes exposing (id, placeholder, value)
 import Html.Events exposing (onInput)
 import Interpreter exposing (Interpreter, runInterpreter)
 import World exposing (World, viewWorld)
@@ -72,7 +72,13 @@ view model =
     div []
         [ p [] []
         , p [] [ text (viewWorld model.world) ]
-        , input [ placeholder "> TYPE COMMAND ☻ :)", onInput GotTextInput ] []
+        , input
+            [ id "interpreter-input"
+            , placeholder "> TYPE COMMAND ☻ :)"
+            , onInput GotTextInput
+            , value <| model.interpreter.rawText
+            ]
+            []
 
         -- , p [] [ text model.statusMsg ]
         ]

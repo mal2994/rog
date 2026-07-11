@@ -55,8 +55,8 @@ get x =
 runInterpreter : Interpreter -> String -> Interpreter
 runInterpreter interpreter inputStr =
     let
-        withUpdatedString =
-            { interpreter | rawText = inputStr }
+        withParsedVerb =
+            { interpreter | verb = parse firstChar }
 
         handleBlank x =
             Maybe.withDefault ( ' ', "" ) x
@@ -70,13 +70,18 @@ runInterpreter interpreter inputStr =
     case firstChar of
         '>' ->
             if String.endsWith "\n" inputStr then
-                { withUpdatedString | rawText = "TODO", verb = None }
+                { interpreter | rawText = "TODO", verb = Down }
 
             else
-                { withUpdatedString | verb = None }
+                { interpreter | rawText = inputStr, verb = None }
 
         _ ->
-            { withUpdatedString | verb = parse firstChar }
+            case withParsedVerb.verb of
+                None ->
+                    initialize
+
+                _ ->
+                    { withParsedVerb | rawText = firstChar |> String.fromChar }
 
 
 initialize : Interpreter
