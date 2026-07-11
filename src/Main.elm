@@ -4,6 +4,7 @@ import Browser
 import Html exposing (Html, br, div, input, p, pre, text)
 import Html.Attributes exposing (placeholder)
 import Html.Events exposing (onInput)
+import Interpreter exposing (Interpreter, runInterpreter)
 import World exposing (World, viewWorld)
 
 
@@ -39,7 +40,7 @@ type Msg
 
 type alias Model =
     { world : World
-    , userTextRaw : String
+    , interpreter : Interpreter
     , messages : List String
     }
 
@@ -51,7 +52,7 @@ type alias Model =
 initialModel : Model
 initialModel =
     { world = World.initialWorld
-    , userTextRaw = ""
+    , interpreter = Interpreter.initialize
     , messages = []
     }
 
@@ -63,7 +64,7 @@ update msg model =
             ( model, Cmd.none )
 
         GotTextInput t ->
-            ( model, Cmd.none )
+            ( { model | interpreter = runInterpreter model.interpreter t }, Cmd.none )
 
 
 view : Model -> Html Msg
