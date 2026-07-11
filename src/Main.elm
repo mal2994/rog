@@ -40,6 +40,7 @@ type Msg
 type alias Model =
     { world : World
     , userTextRaw : String
+    , messages : List String
     }
 
 
@@ -49,8 +50,9 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    { world = World.initialWorld 
+    { world = World.initialWorld
     , userTextRaw = ""
+    , messages = []
     }
 
 

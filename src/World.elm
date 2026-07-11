@@ -16,7 +16,6 @@ type alias World =
     { map : Map
     , player : Player
     , monsters : Dict EntityId Monster
-    , messages : List String
     }
 
 
@@ -49,7 +48,6 @@ initialWorld =
     { map = initialMap
     , player = initialPlayer
     , monsters = Dict.empty
-    , messages = []
     }
 
 
