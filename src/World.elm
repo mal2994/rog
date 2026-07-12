@@ -2,6 +2,7 @@ module World exposing (..)
 
 import Array exposing (Array)
 import Dict exposing (Dict)
+import Entity exposing (Coord, Direction, Entity, EntityType(..))
 
 
 type alias EntityId =
@@ -14,8 +15,8 @@ type alias DoorState =
 
 type alias World =
     { map : Map
-    , player : Player
-    , monsters : Dict EntityId Monster
+    , player : Entity
+    , monsters : Dict EntityId Entity
     }
 
 
@@ -35,14 +36,6 @@ type Tile
     | Knight
 
 
-type alias Player =
-    { hp : Int, coord : Int }
-
-
-type alias Monster =
-    { hp : Int }
-
-
 initialWorld : World
 initialWorld =
     { map = initialMap
@@ -60,13 +53,13 @@ initialMap =
             |> Array.set 14 Wall
             |> Array.set 15 Wall
             |> Array.set 55 Wall
-            |> Array.set 54 Knight
+            -- |> Array.set 54 Knight
     }
 
 
-initialPlayer : Player
+initialPlayer : Entity
 initialPlayer =
-    { hp = 100, coord = 54 }
+    { hp = 100, coord = 54, type_ = Player }
 
 
 viewWorld : World -> String
@@ -110,6 +103,19 @@ viewWorld world =
                     '⋒'
     in
     world.map.tiles
+        |> Array.set world.player.coord Knight
         |> Array.toList
         |> List.map tileToChar
         |> addLineBreaks world.map.width
+
+
+updatePlayer : World -> Direction -> World
+updatePlayer world dir =
+    let
+        player =
+            world.player
+
+        updatedPlayer =
+            { player | coord = 1 }
+    in
+    { world | player = updatedPlayer }

@@ -87,8 +87,11 @@ get x =
 runInterpreter : Interpreter -> String -> Interpreter
 runInterpreter interpreter inputStr =
     let
+        gotVerb =
+            parse firstChar
+
         withParsedVerb =
-            { interpreter | verb = parse firstChar }
+            { interpreter | verb = gotVerb }
 
         handleBlank x =
             Maybe.withDefault ( ' ', "" ) x
@@ -120,7 +123,7 @@ runInterpreter interpreter inputStr =
                     { initialize | previousVerbText = interpreter.previousVerbText }
 
                 _ ->
-                    { withParsedVerb | rawText = "", previousVerbText = toString withParsedVerb.verb |> Just }
+                    { withParsedVerb | rawText = "", previousVerbText = toString gotVerb |> Just }
 
 
 initialize : Interpreter

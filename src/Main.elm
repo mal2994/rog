@@ -5,7 +5,8 @@ import Html exposing (Html, div, input, p, text)
 import Html.Attributes exposing (id, placeholder, value)
 import Html.Events exposing (onInput)
 import Interpreter exposing (Interpreter, runInterpreter)
-import World exposing (World, viewWorld)
+import World exposing (World, updatePlayer, viewWorld)
+import Entity exposing (Direction(..))
 
 
 
@@ -64,7 +65,16 @@ update msg model =
             ( model, Cmd.none )
 
         GotTextInput t ->
-            ( { model | interpreter = runInterpreter model.interpreter t }, Cmd.none )
+            let
+                withInterpreterUpdated =
+                    { model | interpreter = runInterpreter model.interpreter t }
+
+                withPlayerUpdated =
+                    { withInterpreterUpdated | world = updatePlayer model.world N }
+            in
+            ( withPlayerUpdated
+            , Cmd.none
+            )
 
 
 view : Model -> Html Msg
