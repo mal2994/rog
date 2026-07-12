@@ -116,23 +116,23 @@ viewWorld world =
         |> addLineBreaks world.map.width
 
 
-verbToDirection : Verb -> Direction
+verbToDirection : Verb -> Maybe Direction
 verbToDirection v =
     case v of
         Up ->
-            N
+            Just N
 
         Down ->
-            S
+            Just S
 
         Left ->
-            W
+            Just W
 
         Right ->
-            E
+            Just E
 
         _ ->
-            N
+            Nothing
 
 
 updatePlayer : World -> Verb -> World
@@ -141,7 +141,15 @@ updatePlayer world verb =
         player =
             world.player
 
+        dir =
+            verbToDirection verb
+
         updatedPlayer =
-            { player | coord = move (verbToDirection verb) player.coord }
+            case dir of
+                Nothing ->
+                    player
+
+                Just d ->
+                    { player | coord = move d player.coord }
     in
     { world | player = updatedPlayer }

@@ -2,6 +2,7 @@
 
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=2, maximum-scale=2, minimum-scale=2, user-scalable=no">
 	<title>Dungeon</title>
 	<style>
 		@font-face {
@@ -16,12 +17,11 @@
 			color: #f8f8ff;
 			font-family: 'Dungeon Mode', sans-serif;
 			text-align: center;
-			font-size: 24px;
+			/* font-size: 28px;
+			height: 100vh;
+			overflow: hidden;
+			overscroll-behavior: none; */
 
-			/* other shite */
-			/* font-size: 1.25rem; */
-			/* margin: 0; */
-			/* padding: 1rem; */
 			text-rendering: optimizeLegibility;
 			-webkit-font-smoothing: antialiased;
 			-moz-osx-font-smoothing: grayscale;
@@ -31,13 +31,13 @@
 		}
 
 		input {
-			width: 50%;
+			/* width: 50%; */
+			field-sizing: content;
 			font-family: "Dungeon Mode", sans-serif;
+			/* font-size: 32px; */
+			-touch-action: manipulation;
 		}
 
-		/* input::placeholder {
-			font-family: "Dungeon Mode", sans-serif;
-		} */
 	</style>
 </head>
 
