@@ -36,7 +36,7 @@ type Tile
 
 
 type alias Player =
-    { hp : Int }
+    { hp : Int, coord : Int }
 
 
 type alias Monster =
@@ -55,17 +55,18 @@ initialMap : Map
 initialMap =
     { width = 10
     , height = 10
-    , tiles = Array.repeat (10 * 10) Floor
-     |> Array.set 14 Wall
-     |> Array.set 15 Wall
-     |> Array.set 55 Wall
-     |> Array.set 54 Knight
+    , tiles =
+        Array.repeat (10 * 10) Floor
+            |> Array.set 14 Wall
+            |> Array.set 15 Wall
+            |> Array.set 55 Wall
+            |> Array.set 54 Knight
     }
 
 
 initialPlayer : Player
 initialPlayer =
-    { hp = 100 }
+    { hp = 100, coord = 54 }
 
 
 viewWorld : World -> String
@@ -73,12 +74,10 @@ viewWorld world =
     let
         addLineBreaks width charList =
             charList
-                -- |> String.toList
                 |> List.indexedMap
                     (\i c ->
                         if modBy width (i + 1) == 0 then
                             [ c, '\n' ]
-                            -- [ '\n', c ]
 
                         else
                             [ c ]
@@ -106,12 +105,11 @@ viewWorld world =
 
                 StairsDown ->
                     '>'
-                
+
                 Knight ->
                     '⋒'
     in
     world.map.tiles
         |> Array.toList
         |> List.map tileToChar
-        -- |> String.fromList
         |> addLineBreaks world.map.width
