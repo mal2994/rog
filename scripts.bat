@@ -1,19 +1,30 @@
 REM don't run this file, just copy and paste
+REM elm reactor port 8000, http-server port 8080, live server port 3000. Sometimes need to restart live server.
 
-REM you can then click on src/Main.elm to compile. Ctrl-r to pick up new changes.
+REM ELM REACTOR
+REM Not Using Anymore Due To Lack Of Styling/Custom Fonts. See Elm-Watch...
+REM you can click on src/Main.elm to compile. Ctrl-r to pick up new changes.
 elm reactor
-REM since I am relying on CSS for custom fonts, it is handy to bring in elm-watch to hot reload everything. Pretty much works like nodemon.
+
+REM ELM-WATCH
+REM builds the project whenever elm files change
 npx elm-watch hot
 
-elm-test --watch tests\MainTest.elm
+REM ELM-TEST
+REM type checks and tests code whenever files change
+elm-test --watch tests
 
+REM ELM REPL
+REM run some code interactively
 elm repl
 
+REM GIT
 git add -u
 git commit -m "hello"
 
-REM elm reactor is on port 8000 i dont really use it anymore. VS Code Live Preview runs on 3000 and YOU HAVE TO MANUALLY RESTART IT if you make html changes. Not sure why live preview would need restarted LOL.
-REM I've been trying to add a custom font, so to get a permanent index.html to edit, I've been building to a js file instead of the default index.html
+REM ELM MAKE
+REM DO NOT RUN `elm make` DIRECTLY! It will overwrite your `index.html` !!!
+REM Elm-Watch should be taking care of building...
 REM elm make src/Main.elm --output=rog.js
 
 REM https://fontdrop.info/

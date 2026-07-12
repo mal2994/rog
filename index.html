@@ -2,7 +2,8 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=2, maximum-scale=2, minimum-scale=2, user-scalable=no">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=2, maximum-scale=2, minimum-scale=2, user-scalable=no">
 	<title>Dungeon</title>
 	<style>
 		@font-face {
@@ -17,33 +18,41 @@
 			color: #f8f8ff;
 			font-family: 'Dungeon Mode', sans-serif;
 			text-align: center;
-			/* font-size: 28px;
+			/* 
 			height: 100vh;
 			overflow: hidden;
 			overscroll-behavior: none; */
 
-			text-rendering: optimizeLegibility;
+			/* text-rendering: optimizeLegibility;
 			-webkit-font-smoothing: antialiased;
 			-moz-osx-font-smoothing: grayscale;
-			font-smooth: always;
+			font-smooth: always; */
 
 			white-space: pre-line;
 		}
 
 		input {
 			/* width: 50%; */
-			field-sizing: content;
+			/* field-sizing: content; */
 			font-family: "Dungeon Mode", sans-serif;
 			/* font-size: 32px; */
+			font-size: 4vw;
 			-touch-action: manipulation;
 		}
 
+		/* elm generated element */
+		#elm-app #world-paragraph {
+			font-size: 4vw;
+		}
 	</style>
 </head>
 
 <body>
 	<!-- Load the compiled Elm code -->
-	<div id="elm-app"></div>
+	<div id="elm-container">
+		<div id="elm-app"></div>
+	</div>
+
 	<script src="rog.js"></script>
 	<script>
 		// Initialize your Elm application
@@ -73,8 +82,6 @@
 			// event.preventDefault();
 		})
 	</script>
-
-
 </body>
 
 </html>

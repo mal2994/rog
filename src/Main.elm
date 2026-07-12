@@ -84,7 +84,7 @@ view : Model -> Html Msg
 view model =
     div []
         [ p [] []
-        , p [] [ text (viewWorld model.world) ]
+        , p [ id "world-paragraph" ] [ text (viewWorld model.world) ]
         , input
             [ id "interpreter-input"
             , placeholder

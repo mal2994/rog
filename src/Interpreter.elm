@@ -1,7 +1,5 @@
 module Interpreter exposing (..)
 
-import Maybe exposing (withDefault)
-
 
 type alias Interpreter =
     { rawText : String
@@ -45,7 +43,7 @@ toString x =
         None ->
             ""
 
-        Run y ->
+        Run _ ->
             ""
 
 
