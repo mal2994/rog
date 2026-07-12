@@ -1,12 +1,12 @@
 module Main exposing (..)
 
 import Browser
+import Entity exposing (Direction(..))
 import Html exposing (Html, div, input, p, text)
 import Html.Attributes exposing (id, placeholder, value)
 import Html.Events exposing (onInput)
 import Interpreter exposing (Interpreter, runInterpreter)
 import World exposing (World, updatePlayer, viewWorld)
-import Entity exposing (Direction(..))
 
 
 
@@ -66,11 +66,14 @@ update msg model =
 
         GotTextInput t ->
             let
+                interpreterUpdated =
+                    runInterpreter model.interpreter t
+
                 withInterpreterUpdated =
-                    { model | interpreter = runInterpreter model.interpreter t }
+                    { model | interpreter = interpreterUpdated }
 
                 withPlayerUpdated =
-                    { withInterpreterUpdated | world = updatePlayer model.world N }
+                    { withInterpreterUpdated | world = updatePlayer model.world interpreterUpdated.verb }
             in
             ( withPlayerUpdated
             , Cmd.none

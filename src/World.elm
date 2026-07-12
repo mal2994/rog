@@ -2,7 +2,13 @@ module World exposing (..)
 
 import Array exposing (Array)
 import Dict exposing (Dict)
-import Entity exposing (Coord, Direction, Entity, EntityType(..))
+import Entity exposing (Coord, Direction(..), Entity, EntityType(..), move)
+import Interpreter exposing (Verb(..))
+
+
+
+-- probably would make sense to extract the enums into a separate module
+-- but, since we are qualifying up here I guess the coupling is pretty low still
 
 
 type alias EntityId =
@@ -53,7 +59,8 @@ initialMap =
             |> Array.set 14 Wall
             |> Array.set 15 Wall
             |> Array.set 55 Wall
-            -- |> Array.set 54 Knight
+
+    -- |> Array.set 54 Knight
     }
 
 
@@ -109,13 +116,32 @@ viewWorld world =
         |> addLineBreaks world.map.width
 
 
-updatePlayer : World -> Direction -> World
-updatePlayer world dir =
+verbToDirection : Verb -> Direction
+verbToDirection v =
+    case v of
+        Up ->
+            N
+
+        Down ->
+            S
+
+        Left ->
+            W
+
+        Right ->
+            E
+
+        _ ->
+            N
+
+
+updatePlayer : World -> Verb -> World
+updatePlayer world verb =
     let
         player =
             world.player
 
         updatedPlayer =
-            { player | coord = 1 }
+            { player | coord = move (verbToDirection verb) player.coord }
     in
     { world | player = updatedPlayer }
