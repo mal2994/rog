@@ -3,7 +3,7 @@ module Main exposing (..)
 import Browser
 import Entity exposing (Direction(..))
 import Html exposing (Html, div, input, p, text)
-import Html.Attributes exposing (id, placeholder, value)
+import Html.Attributes exposing (autofocus, id, placeholder, value)
 import Html.Events exposing (onInput)
 import Interpreter exposing (Interpreter, runInterpreter)
 import World exposing (World, updatePlayer, viewWorld)
@@ -83,10 +83,10 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ p [] []
-        , p [ id "world-paragraph" ] [ text (viewWorld model.world) ]
+        [ p [ id "world-paragraph" ] [ text (viewWorld model.world) ]
         , input
             [ id "interpreter-input"
+            , autofocus True
             , placeholder
                 (model.interpreter.previousVerbText
                     |> Maybe.withDefault "> TYPE COMMAND ☻ :)"

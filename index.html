@@ -2,8 +2,9 @@
 
 <head>
 	<meta charset="UTF-8">
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=2, maximum-scale=2, minimum-scale=2, user-scalable=no"> -->
 	<meta name="viewport"
-		content="width=device-width, initial-scale=2, maximum-scale=2, minimum-scale=2, user-scalable=no">
+		content="width=device-width, user-scalable=no">
 	<title>Dungeon</title>
 	<style>
 		@font-face {
@@ -14,14 +15,16 @@
 		}
 
 		body {
+			margin: 0;
 			background: #191970;
 			color: #f8f8ff;
 			font-family: 'Dungeon Mode', sans-serif;
 			text-align: center;
 			/* 
 			height: 100vh;
+			*/
 			overflow: hidden;
-			overscroll-behavior: none; */
+			overscroll-behavior: none;
 
 			/* text-rendering: optimizeLegibility;
 			-webkit-font-smoothing: antialiased;
@@ -36,13 +39,13 @@
 			/* field-sizing: content; */
 			font-family: "Dungeon Mode", sans-serif;
 			/* font-size: 32px; */
-			font-size: 4vw;
-			-touch-action: manipulation;
+			/* font-size: 4vw; */
+			/* -touch-action: manipulation; */
 		}
 
-		/* elm generated element */
-		#elm-app #world-paragraph {
-			font-size: 4vw;
+		#world-paragraph {
+			margin: 0;
+			/* font-size: 4vw; */
 		}
 	</style>
 </head>
@@ -55,12 +58,19 @@
 
 	<script src="rog.js"></script>
 	<script>
-		// Initialize your Elm application
+		/* 
+		 * Initialize your Elm application
+		 */
 		Elm.Main.init({ node: document.getElementById('elm-app') });
 
-		// Listen for any key pressed on the document
+		/*
+		 * Listen for any key pressed on the document
+		 */
+		const inputField = document.getElementById('interpreter-input');
+		inputField.setAttribute("inputmode", "decimal");
+		inputField.setAttribute("pattern", "[0-9]*");
+
 		document.addEventListener('keydown', function (event) {
-			const inputField = document.getElementById('interpreter-input');
 
 			// 1. Check if the user is already focused on the input field
 			if (document.activeElement === inputField) {
