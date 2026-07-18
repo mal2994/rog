@@ -31,10 +31,12 @@ type alias Coord =
 
 
 -- TODO you can use Array.slice to make a function similar to List.any for better performance
+-- arrayContains : Array a -> a -> Bool
+-- arrayContains arr v =
 
 
-arrayContains : Array a -> a -> Bool
-arrayContains arr v =
+arrayContains : a -> Array a -> Bool
+arrayContains v arr =
     let
         greaterThanZero x =
             x > 0
@@ -48,11 +50,15 @@ arrayContains arr v =
 -- insertVal argument is the value we will put in source array at the indexes mentioned in change array
 
 
-transform : Array Tile -> Array Int -> Tile -> Array Tile
-transform srcArr chgArr newVal =
+transform : Tile -> List Int -> Array Tile -> Array Tile
+transform newVal chgList srcArr =
     Array.indexedMap
         (\i n ->
-            if arrayContains chgArr i then
+            if
+                chgList
+                    |> Array.fromList
+                    |> arrayContains i
+            then
                 newVal
 
             else

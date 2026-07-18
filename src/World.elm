@@ -170,7 +170,7 @@ canMoveTo map coord =
 
 
 addSquare : Coord -> Coord -> Tile -> Map -> Map
-addSquare topLeft bottomRight tile map =
+addSquare topLeft bottomRight chgTile map =
     let
         getX x =
             modBy map.width x
@@ -190,18 +190,26 @@ addSquare topLeft bottomRight tile map =
         y1 =
             getY bottomRight
 
-        addTiles chgList srcList =
-            transform srcList (chgList |> Array.fromList) tile
-        
+        addTilesHori xx0 xx1 srcArr =
+            srcArr |> transform chgTile (List.range xx0 xx1)
+
+        addTilesVert yy0 yy1 xx srcArr =
+            transform chgTile
+                (List.range yy0 (yy1 - 45)
+                    |> List.map (\n -> (n * map.width) + xx)
+                )
+                srcArr
 
         addedTiles =
             map.tiles
                 -- top:
-                |> addTiles (List.range (x0 + y0) (x1 + y0))
+                |> addTilesHori (x0 + y0) (x1 + y0)
                 -- bottom:
-                |> addTiles (List.range (x0 + y1) (x1 + y1))
+                |> addTilesHori (x0 + y1) (x1 + y1)
                 -- left:
-                -- |> addTiles (List.range (x0 + y1) (x1 + y1))
+                |> addTilesVert y0 y1 x0
+                -- right:
+                |> addTilesVert y0 y1 x1
     in
     -- { map | tiles = List.repeat 100 Skull |> Array.fromList }
     { map | tiles = addedTiles }
