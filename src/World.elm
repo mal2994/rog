@@ -41,17 +41,18 @@ initialMap =
     , height = 10
     , tiles =
         Array.repeat (10 * 10) Floor
-            -- |> Array.set 14 Wall
-            -- |> Array.set 15 Wall
-            -- |> Array.set 55 Wall
-            |> Array.set 56 Skull
+
+    -- |> Array.set 14 Wall
+    -- |> Array.set 15 Wall
+    -- |> Array.set 55 Wall
+    -- |> Array.set 56 Skull
     }
-        |> addSquare 0 10 Floor
+        |> addSquare 0 55 Wall
 
 
 initialPlayer : Entity
 initialPlayer =
-    { hp = 100, coord = 54, type_ = Player }
+    { hp = 100, coord = 94, type_ = Player }
 
 
 viewWorld : World -> String
@@ -175,7 +176,7 @@ addSquare topLeft bottomRight tile map =
             modBy map.width x
 
         getY y =
-            y // map.height
+            y // map.height * map.height
 
         x0 =
             getX topLeft
@@ -189,10 +190,18 @@ addSquare topLeft bottomRight tile map =
         y1 =
             getY bottomRight
 
-        addedTop =
-            transform map.tiles
-                (List.range (x0 + y0) (x1 + y0) |> Array.fromList)
-                tile
+        addTiles chgList srcList =
+            transform srcList (chgList |> Array.fromList) tile
+        
+
+        addedTiles =
+            map.tiles
+                -- top:
+                |> addTiles (List.range (x0 + y0) (x1 + y0))
+                -- bottom:
+                |> addTiles (List.range (x0 + y1) (x1 + y1))
+                -- left:
+                -- |> addTiles (List.range (x0 + y1) (x1 + y1))
     in
     -- { map | tiles = List.repeat 100 Skull |> Array.fromList }
-    { map | tiles = addedTop }
+    { map | tiles = addedTiles }
