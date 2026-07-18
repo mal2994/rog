@@ -49,6 +49,11 @@ toString x =
 
 parse : Char -> Verb
 parse a =
+    let
+        -- TODO don't require code change to set this toggle
+        toggle_mobile =
+            False
+    in
     case Char.toLower a of
         ' ' ->
             None
@@ -81,10 +86,18 @@ parse a =
         -- 8 is Up on keyboard but Down on mobile keypad
         -- so we will program for mobile keypad
         '8' ->
-            Down
+            if toggle_mobile then
+                Down
+
+            else
+                Up
 
         '2' ->
-            Up
+            if toggle_mobile then
+                Up
+
+            else
+                Down
 
         '5' ->
             X
@@ -96,8 +109,6 @@ parse a =
             None
 
 
-{-| call this last in ur pipeline
--}
 get : Interpreter -> Verb
 get x =
     x.verb

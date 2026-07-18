@@ -57,12 +57,10 @@ initialMap =
     , height = 10
     , tiles =
         Array.repeat (10 * 10) Floor
-            |> Array.set 14 Wall
-            |> Array.set 15 Wall
-            |> Array.set 55 Wall
+            -- |> Array.set 14 Wall
+            -- |> Array.set 15 Wall
+            -- |> Array.set 55 Wall
             |> Array.set 56 Skull
-
-    -- |> Array.set 54 Knight
     }
 
 
@@ -183,3 +181,24 @@ canMoveTo map coord =
 
         _ ->
             False
+
+addSquare : Map -> Coord -> Coord -> Tile -> Map
+addSquare map topLeft bottomRight tile =
+    let
+        idiv =
+            (//)
+
+        -- get array index
+        x0 =
+            modBy map.width topLeft
+
+        y0 =
+            idiv map.height topLeft
+
+        x1 =
+            modBy map.width bottomRight
+
+        y1 =
+            idiv map.height bottomRight
+    in
+    map
