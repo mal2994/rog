@@ -71,6 +71,27 @@ parse a =
         'x' ->
             X
 
+        '4' ->
+            Left
+
+        '6' ->
+            Right
+
+        -- mobile keypad is different than keyboard keypad
+        -- 8 is Up on keyboard but Down on mobile keypad
+        -- so we will program for mobile keypad
+        '8' ->
+            Down
+
+        '2' ->
+            Up
+
+        '5' ->
+            X
+
+        '0' ->
+            Z
+
         _ ->
             None
 
