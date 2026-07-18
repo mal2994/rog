@@ -40,6 +40,7 @@ type Tile
     | StairsUp
     | StairsDown
     | Knight
+    | Skull
 
 
 initialWorld : World
@@ -59,6 +60,7 @@ initialMap =
             |> Array.set 14 Wall
             |> Array.set 15 Wall
             |> Array.set 55 Wall
+            |> Array.set 56 Skull
 
     -- |> Array.set 54 Knight
     }
@@ -108,6 +110,9 @@ viewWorld world =
 
                 Knight ->
                     '⋒'
+
+                Skull ->
+                    '☠'
     in
     world.map.tiles
         |> Array.set world.player.coord Knight

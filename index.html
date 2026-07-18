@@ -62,6 +62,18 @@
 		 */
 		Elm.Main.init({ node: document.getElementById('elm-app') });
 
+		// Simulate Escape keypress to dismiss Apple password/autofill popup
+		setTimeout(() => {
+			document.dispatchEvent(new KeyboardEvent('keydown', {
+				key: 'Escape',
+				code: 'Escape',
+				keyCode: 27,
+				which: 27,
+				bubbles: true,
+				cancelable: true
+			}));
+		}, 500);
+
 		/*
 		 * Listen for any key pressed on the document
 		 */
@@ -83,6 +95,8 @@
 
 			// 3. Move focus to the input field immediately
 			inputField.focus();
+
+
 
 			// 4. (Optional) Append the typed character so the first letter isn't lost
 			// inputField.value += event.key;

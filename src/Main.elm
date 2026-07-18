@@ -7,6 +7,9 @@ import Html.Attributes exposing (autofocus, id, placeholder, value)
 import Html.Events exposing (onInput)
 import Interpreter exposing (Interpreter, runInterpreter)
 import World exposing (World, updatePlayer, viewWorld)
+import Html.Attributes exposing (autocomplete)
+import Html.Attributes exposing (spellcheck)
+import Html.Attributes exposing (lang)
 
 
 
@@ -87,6 +90,9 @@ view model =
         , input
             [ id "interpreter-input"
             , autofocus True
+            , autocomplete False
+            , spellcheck False
+            , lang "en"
             , placeholder
                 (model.interpreter.previousVerbText
                     |> Maybe.withDefault "> TYPE COMMAND ☻ :)"
