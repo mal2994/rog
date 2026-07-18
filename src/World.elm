@@ -2,13 +2,13 @@ module World exposing (..)
 
 import Array exposing (Array)
 import Dict exposing (Dict)
-import Entity exposing (Coord, Direction(..), Entity, EntityType(..), move)
+import Entity exposing (Direction(..), Entity, EntityType(..), move)
+import Enums exposing (Coord)
 import Interpreter exposing (Verb(..))
 
 
 
 -- probably would make sense to extract the enums into a separate module
--- but, since we are qualifying up here I guess the coupling is pretty low still
 
 
 type alias EntityId =
@@ -150,6 +150,31 @@ updatePlayer world verb =
                     player
 
                 Just d ->
-                    { player | coord = move d player.coord }
+                    let
+                        canMove =
+                            canMoveTo world.map (move d player.coord)
+                    in
+                    if canMove then
+                        { player | coord = move d player.coord }
+
+                    else
+                        player
     in
     { world | player = updatedPlayer }
+
+
+checkMove : Map -> Coord -> Tile
+checkMove map coord =
+    Array.get coord map.tiles
+        -- if array out of bounds, return wall
+        |> Maybe.withDefault Wall
+
+
+canMoveTo : Map -> Coord -> Bool
+canMoveTo map coord =
+    case checkMove map coord of
+        Floor ->
+            True
+
+        _ ->
+            False

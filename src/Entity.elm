@@ -1,10 +1,7 @@
 module Entity exposing (..)
 
 import Html.Attributes exposing (dir)
-
-
-type alias Coord =
-    Int
+import Enums exposing (Coord)
 
 
 type alias Entity =
@@ -44,7 +41,3 @@ move dir z =
 
         W ->
             z - 1
-
-
-checkMove =
-    move
