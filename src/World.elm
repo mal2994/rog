@@ -3,20 +3,14 @@ module World exposing (..)
 import Array exposing (Array)
 import Dict exposing (Dict)
 import Entity exposing (Direction(..), Entity, EntityType(..), move)
-import Enums exposing (Coord)
+import Enums exposing (Coord, DoorState, EntityId, Tile(..), transform)
+import Html exposing (q)
+import Html.Attributes exposing (src)
 import Interpreter exposing (Verb(..))
 
 
 
 -- probably would make sense to extract the enums into a separate module
-
-
-type alias EntityId =
-    Int
-
-
-type alias DoorState =
-    Bool
 
 
 type alias World =
@@ -31,16 +25,6 @@ type alias Map =
     , height : Int
     , tiles : Array Tile
     }
-
-
-type Tile
-    = Floor
-    | Wall
-    | Door DoorState
-    | StairsUp
-    | StairsDown
-    | Knight
-    | Skull
 
 
 initialWorld : World
@@ -62,6 +46,7 @@ initialMap =
             -- |> Array.set 55 Wall
             |> Array.set 56 Skull
     }
+        |> addSquare 0 10 Floor
 
 
 initialPlayer : Entity
@@ -182,23 +167,32 @@ canMoveTo map coord =
         _ ->
             False
 
-addSquare : Map -> Coord -> Coord -> Tile -> Map
-addSquare map topLeft bottomRight tile =
-    let
-        idiv =
-            (//)
 
-        -- get array index
+addSquare : Coord -> Coord -> Tile -> Map -> Map
+addSquare topLeft bottomRight tile map =
+    let
+        getX x =
+            modBy map.width x
+
+        getY y =
+            y // map.height
+
         x0 =
-            modBy map.width topLeft
+            getX topLeft
 
         y0 =
-            idiv map.height topLeft
+            getY topLeft
 
         x1 =
-            modBy map.width bottomRight
+            getX bottomRight
 
         y1 =
-            idiv map.height bottomRight
+            getY bottomRight
+
+        addedTop =
+            transform map.tiles
+                (List.range (x0 + y0) (x1 + y0) |> Array.fromList)
+                tile
     in
-    map
+    -- { map | tiles = List.repeat 100 Skull |> Array.fromList }
+    { map | tiles = addedTop }
